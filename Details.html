@@ -1,0 +1,91 @@
+<script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+      }
+    }
+</script>
+
+
+<div id="details">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Countries challenge</title>
+    </head>
+    <body>
+        <div>
+            <button type = "button" id = "backButtn" >
+                Back
+            </button>
+          </button>
+        </div>
+        <div v-for="country in countryData">
+            <div>
+                <img v-bind:src="country.flags.png" alt="Flag"/>
+            </div>
+            <div>
+                <h1>{{country.name.common}}</h1>
+            </div>
+            <div>
+                <!--Todo: uitzoeken welke name er gepakt moet worden-->
+                Native Name: 
+            </div>
+            <div>
+                Population: {{country.population}}
+            </div>
+            <div>
+                Region: {{country.region}}
+            </div>
+            <div>
+                Sub Region: {{country.subregion}}
+            </div>
+            <div>
+                <!--Todo: select first item from the array-->
+                Capital: {{country.capital}}
+            </div>
+            <div>
+                <!--Todo: select first item from the array-->
+                Top Level Domain: {{country.tld}}
+            </div>
+            <div>
+                <!--Todo: find better way to display-->
+                Currencies: {{country.currencies}}
+            </div>
+            <div>
+                <!--Todo: find better way to display-->
+                Languages: {{country.languages}}
+            </div>
+            <div>
+                <!--Todo: get country data with api call and display with links-->
+                borders: {{country.borders}}
+            </div>
+        </div>
+    </body>
+    </html>
+</div>
+
+
+<script type="module">
+    import {createApp, reactive, toRefs, computed} from "vue";
+
+    const state = reactive({
+        //deze waarde moet uiteindelijk gevuld worden met een waardie die meegegeven word met navigeren
+        selectedCountry: "belgium",
+        countryData: []
+    })
+  
+    createApp({
+        setup() {
+            fetch("https://restcountries.com/v3.1/name/" + state.selectedCountry)
+            .then((res) => res.json())
+            .then((data) => {
+                //console.log(data)
+                //console.log("https://restcountries.com/v3.1/name/" + state.selectedCountry)                
+                state.countryData = data
+            })
+
+            return {...toRefs(state)}
+        }
+    }).mount('#details')
+  </script>

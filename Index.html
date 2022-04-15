@@ -1,0 +1,108 @@
+<script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+      }
+    }
+</script>
+
+<div id="index">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Countries challenge</title>
+    </head>
+    <body>
+        <div id="main">
+            <h1> Where in the world </h1>
+        </div>
+        <div id="searchBox">
+            <input type="text" placeholder="Search countries here" v-model="countriesFilterText"/>
+        </div>
+        <div id="regionSelection">
+            <!--Todo: find a way to make dynamic list based on all available options from api-->
+            <select v-model="regionFilterText" id="regionSelection">
+                <option value="">All</option>
+                <option value="africa">Africa</option>
+                <option value="americas">Amerika</option>
+                <option value="asia">Asia</option>
+                <option value="europe">Europe</option>
+                <option value="oceania">Oceania</option>
+            </select>
+        </div>
+        <div id="countries">
+            <div v-for="country in filteredCountries">
+                <!--test voor het krijgen van de naam om deze te gaan gebruiken voor navigatie -->
+                <a @click = "notify(country.name.common)">
+                    <div>
+                        <img v-bind:src="country.flags.png" alt="Flag"/>
+                    </div>
+                    <div>
+                        <h1>{{country.name.common}}</h1>
+                    </div>
+                    <div>
+                        Population: {{country.population}}
+                    </div>
+                    <div>
+                        Region: {{country.region}}
+                    </div>
+                    <div>
+                        <!--Todo: select first item from the array-->
+                        Capital: {{country.capital}}
+                    </div>
+                </a> 
+            </div>
+        </div>
+  
+    </body>
+    </html>
+</div>
+
+<script type="module">
+    import {createApp, reactive, toRefs, computed} from "vue";
+//:href="publicPath + 'details.html'"
+    const state = reactive({
+        countries:[],
+        countriesFilterText: "",
+        regionFilterText: "",
+        regionFilteredCountries: [],
+        filteredCountries: computed(() => updateFilteredCountries()),
+    })
+
+    function updateFilteredCountries(){
+        if(!state.regionFilterText){
+            state.regionFilteredCountries = state.countries
+        }else {
+            state.regionFilteredCountries = state.countries.filter((country) =>
+            country.region.toLowerCase().includes(state.regionFilterText.toLowerCase())
+            )
+        }
+        //console.log()
+
+        if(!state.countriesFilterText){
+            return state.regionFilteredCountries
+        }
+
+        return state.regionFilteredCountries.filter((country) =>
+            country.name.common.toLowerCase().includes(state.countriesFilterText.toLowerCase())
+            )
+    }
+  
+    createApp({
+        setup() {
+            fetch("https://restcountries.com/v3.1/all")
+            .then((res) => res.json())
+            .then((data) => {
+                //console.log(data)
+                state.countries = data
+            })
+
+            return {...toRefs(state)}
+        },
+        methods: {
+            notify (countryName) {
+                alert(countryName)
+            }
+        }
+    }).mount('#index')
+  </script>

@@ -7,14 +7,20 @@
         {
             "type": "msedge",
             "request": "launch",
-            "name": "Open Edge Main.html",
-            "file": "c:\\GitRepos\\Frontend_Mentor_Challenges\\FrontendMentorRestCountriesAPIChallenge\\Main.html"
+            "name": "Open Edge Index.html",
+            "file": "c:\\GitRepos\\Frontend_Mentor_Challenges\\FrontendMentorRestCountriesAPIChallenge\\Index.html"
         },
         {
             "type": "pwa-chrome",
             "request": "launch",
-            "name": "Open Chrome Main.html",
-            "file": "c:\\GitRepos\\Frontend_Mentor_Challenges\\FrontendMentorRestCountriesAPIChallenge\\Main.html"
+            "name": "Open Chrome Index.html",
+            "file": "c:\\GitRepos\\Frontend_Mentor_Challenges\\FrontendMentorRestCountriesAPIChallenge\\Index.html"
+        },{
+
+            "type": "msedge",
+            "request": "launch",
+            "name": "Open Edge Details.html",
+            "file": "c:\\GitRepos\\Frontend_Mentor_Challenges\\FrontendMentorRestCountriesAPIChallenge\\Details.html"
         }
     ]
 }
